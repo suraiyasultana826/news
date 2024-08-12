@@ -2,32 +2,34 @@ import { Box, Button, Card, CardActions, CardContent, CardMedia, Grid, Typograph
 import news from '@/assets/news.jpg';
 import Image from 'next/image';
 import tech from '@/assets/technology.jpg'
-const LatestNews = () => {
+import { getAllNews } from '@/utilis/getAllNews';
+const LatestNews = async () => {
+    const { data} = await getAllNews();
+    // console.log(data);
     return (
 
         <Box className="my-5">
             <Card>
                 <CardMedia>
-                    <Image src={news} alt='news' width={800} />
+                    <Image src={data[0].thumbnail_url} height={500} alt='news' width={800} />
                 </CardMedia>
                 <CardContent>
                     <p className='
-        w-[70px]
+        w-[100px]
         bg-red-500
         px-2
         text-white
         my-5
         rounded
-        '>Politics</p>
+        '>{data[0].category}</p>
                     <Typography gutterBottom variant="h5" component="div">
-                        Biden Pledges Nearly $3 Billion To Ukraine In Largest U.S. Military Aid Package Yet
+                       {data[0].title}
                     </Typography>
                     <Typography className='my-3' gutterBottom>
-                        By Suraiya sultana - August 11, 2024
+                        By {data[0].author.name} - {data[0].author.published_date}
                     </Typography>
                     <Typography variant="body2" color="text.secondary">
-                        Lizards are a widespread group of squamate reptiles, with over 6,000
-                        species, ranging across all continents except Antarctica
+                    {data[0].details.length>200? data[0].details.slice(0,200) +"..." : data[0].details}
                     </Typography>
                 </CardContent>
                 <CardActions>
@@ -38,25 +40,27 @@ const LatestNews = () => {
 
 
             <Grid className='mt-5' container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}>
-                <Grid item xs={6}>
+              {
+                data.slice(0,4).map((news) =>(
+                    <Grid key={news.id} item xs={6}>
                     <Card>
                         <CardMedia>
-                            <Image src={tech} alt='news' width={800} />
+                            <Image src={news.thumbnail_url} alt='news' height={500} width={800} />
                         </CardMedia>
                         <CardContent>
                             <p className='
-        w-[70px]
+        w-[100px]
         bg-red-500
         px-2
         text-white
         my-5
         rounded
-        '>Politics</p>
+        '>{news.category}</p>
                             <Typography gutterBottom variant="h5" component="div">
-                                Biden Pledges Nearly $3 Billion To Ukraine In Largest U.S. Military Aid Package Yet
+                               {news.title}
                             </Typography>
                             <Typography className='my-3' gutterBottom>
-                                By Suraiya sultana - August 11, 2024
+                                By {news.author.name} - {news.author.published_date}
                             </Typography>
                             <Typography variant="body2" color="text.secondary">
                                 Lizards are a widespread group of squamate reptiles, with over 6,000
@@ -69,99 +73,9 @@ const LatestNews = () => {
                         </CardActions>
                     </Card>
                 </Grid>
-                <Grid item xs={6}>
-                    <Card>
-                        <CardMedia>
-                            <Image src={tech} alt='news' width={800} />
-                        </CardMedia>
-                        <CardContent>
-                            <p className='
-        w-[70px]
-        bg-red-500
-        px-2
-        text-white
-        my-5
-        rounded
-        '>Politics</p>
-                            <Typography gutterBottom variant="h5" component="div">
-                                Biden Pledges Nearly $3 Billion To Ukraine In Largest U.S. Military Aid Package Yet
-                            </Typography>
-                            <Typography className='my-3' gutterBottom>
-                                By Suraiya sultana - August 11, 2024
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                Lizards are a widespread group of squamate reptiles, with over 6,000
-                                species, ranging across all continents except Antarctica
-                            </Typography>
-                        </CardContent>
-                        <CardActions>
-                            <Button size="small">Share</Button>
-                            <Button size="small">Learn More</Button>
-                        </CardActions>
-                    </Card>
-                </Grid>
-                <Grid item xs={6}>
-                    <Card>
-                        <CardMedia>
-                            <Image src={tech} alt='news' width={800} />
-                        </CardMedia>
-                        <CardContent>
-                            <p className='
-        w-[70px]
-        bg-red-500
-        px-2
-        text-white
-        my-5
-        rounded
-        '>Politics</p>
-                            <Typography gutterBottom variant="h5" component="div">
-                                Biden Pledges Nearly $3 Billion To Ukraine In Largest U.S. Military Aid Package Yet
-                            </Typography>
-                            <Typography className='my-3' gutterBottom>
-                                By Suraiya sultana - August 11, 2024
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                Lizards are a widespread group of squamate reptiles, with over 6,000
-                                species, ranging across all continents except Antarctica
-                            </Typography>
-                        </CardContent>
-                        <CardActions>
-                            <Button size="small">Share</Button>
-                            <Button size="small">Learn More</Button>
-                        </CardActions>
-                    </Card>
-                </Grid>
-                <Grid item xs={6}>
-                    <Card>
-                        <CardMedia>
-                            <Image src={tech} alt='news' width={800} />
-                        </CardMedia>
-                        <CardContent>
-                            <p className='
-        w-[70px]
-        bg-red-500
-        px-2
-        text-white
-        my-5
-        rounded
-        '>Politics</p>
-                            <Typography gutterBottom variant="h5" component="div">
-                                Biden Pledges Nearly $3 Billion To Ukraine In Largest U.S. Military Aid Package Yet
-                            </Typography>
-                            <Typography className='my-3' gutterBottom>
-                                By Suraiya sultana - August 11, 2024
-                            </Typography>
-                            <Typography variant="body2" color="text.secondary">
-                                Lizards are a widespread group of squamate reptiles, with over 6,000
-                                species, ranging across all continents except Antarctica
-                            </Typography>
-                        </CardContent>
-                        <CardActions>
-                            <Button size="small">Share</Button>
-                            <Button size="small">Learn More</Button>
-                        </CardActions>
-                    </Card>
-                </Grid>
+                ))
+              }
+               
 
             </Grid>
 
